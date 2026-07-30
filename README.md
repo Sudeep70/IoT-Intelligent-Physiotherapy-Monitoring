@@ -126,7 +126,7 @@ The Soft Voting ensemble model achieved strong classification performance on the
 ## ROC Curve
 
 
- <img width="1770" height="1470" alt="roc_curve" src="https://github.com/user-attachments/assets/0e005057-c216-4d20-9274-02227e902c08" />
+ <img width="360" height="285" alt="roc_curve" src="https://github.com/user-attachments/assets/0e005057-c216-4d20-9274-02227e902c08" />
 
 
 ---
