@@ -1,0 +1,21 @@
+IoT Physiotherapy ML Training Log
+========================================
+Train Samples : 7352
+Test Samples  : 2947
+
+Random Forest
+Accuracy : 0.9294
+AUC      : 0.9693
+
+Logistic Regression
+Accuracy : 0.9169
+AUC      : 0.9712
+
+XGBoost
+Accuracy : 0.9257
+AUC      : 0.9686
+
+Ensemble
+Accuracy : 0.9274
+AUC      : 0.9710
+

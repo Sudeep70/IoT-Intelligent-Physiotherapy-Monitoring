@@ -1,0 +1,8 @@
+                precision    recall  f1-score   support
+
+Incorrect Form       0.93      0.91      0.92      1355
+  Correct Form       0.93      0.94      0.93      1592
+
+      accuracy                           0.93      2947
+     macro avg       0.93      0.93      0.93      2947
+  weighted avg       0.93      0.93      0.93      2947

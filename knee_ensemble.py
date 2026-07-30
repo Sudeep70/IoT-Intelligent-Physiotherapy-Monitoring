@@ -2,12 +2,20 @@ import os
 import numpy as np
 import pandas as pd
 import joblib
+import matplotlib.pyplot as plt
 
 # ML models
 from sklearn.ensemble import RandomForestClassifier, VotingClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score, roc_auc_score
+from sklearn.metrics import (
+    accuracy_score,
+    roc_auc_score,
+    classification_report,
+    confusion_matrix,
+    roc_curve,
+    precision_recall_curve,
+)
 from xgboost import XGBClassifier
 
 # -----------------------------
@@ -18,6 +26,9 @@ np.random.seed(SEED)
 
 # Path to the UCI HAR dataset folder
 DATASET_DIR = "UCI HAR Dataset"
+
+RESULTS_DIR = "results"
+os.makedirs(RESULTS_DIR, exist_ok=True)
 
 # -----------------------------
 # 2. MEMORY-EFFICIENT LOADER
@@ -263,10 +274,20 @@ if __name__ == "__main__":
         auc  = roc_auc_score(y_test, prob)
         results.append([name, acc, auc])
 
-    df_results = pd.DataFrame(results, columns=["Model", "Accuracy", "AUC"])
-    df_results["Accuracy"] = df_results["Accuracy"].apply(lambda x: f"{x*100:.2f}%")
-    df_results["AUC"]      = df_results["AUC"].apply(lambda x: f"{x:.3f}")
-    print(df_results.to_string(index=False))
+    # Save raw metrics
+df_results = pd.DataFrame(results, columns=["Model", "Accuracy", "AUC"])
+
+df_results.to_csv(
+    os.path.join(RESULTS_DIR, "model_results.csv"),
+    index=False
+)
+
+# Display formatted metrics
+display_df = df_results.copy()
+display_df["Accuracy"] = display_df["Accuracy"].apply(lambda x: f"{x*100:.2f}%")
+display_df["AUC"] = display_df["AUC"].apply(lambda x: f"{x:.3f}")
+
+print(display_df.to_string(index=False))
 
     # ══════════════════════════════════════════════════════════════════════
     # 8. DEMONSTRATION — ALL PREDICTIONS MATCH GROUND TRUTH
@@ -276,35 +297,171 @@ if __name__ == "__main__":
     # same correct class, the weighted ensemble is mathematically guaranteed
     # to agree — proving the system works on both CORRECT and INCORRECT form.
     # ══════════════════════════════════════════════════════════════════════
-    print("\n=== SAMPLE PREDICTIONS ===")
+    # Save Classification Report (Ensemble)
+ensemble_pred = ensemble.predict(X_test)
 
-    rf_preds  = rf.predict(X_test)
-    lr_preds  = lr.predict(X_test)
-    xgb_preds = xgb.predict(X_test)
 
-    # Find indices where all three models agree with ground truth
-    all_agree = np.where(
-        (rf_preds  == y_test) &
-        (lr_preds  == y_test) &
-        (xgb_preds == y_test)
-    )[0]
+# ------------------------------------------------------------------
+# Save sample predictions
+# ------------------------------------------------------------------
+sample_df = pd.DataFrame({
+    "GroundTruth": y_test,
+    "Prediction": ensemble_pred
+})
+sample_df.to_csv(
+    os.path.join(RESULTS_DIR, "sample_predictions.csv"),
+    index=False
+)
 
-    correct_agree   = [i for i in all_agree if y_test[i] == 1][:2]
-    incorrect_agree = [i for i in all_agree if y_test[i] == 0][:2]
-    demo_indices    = np.array(correct_agree + incorrect_agree)
+# ------------------------------------------------------------------
+# Confusion Matrix
+# ------------------------------------------------------------------
+cm = confusion_matrix(y_test, ensemble_pred)
 
-    demo_preds = ensemble.predict(X_test[demo_indices])
+pd.DataFrame(
+    cm,
+    index=["Incorrect", "Correct"],
+    columns=["Pred Incorrect", "Pred Correct"]
+).to_csv(
+    os.path.join(RESULTS_DIR, "confusion_matrix.csv")
+)
 
-    for i, idx in enumerate(demo_indices):
-        true_label = "CORRECT"   if y_test[idx]   == 1 else "INCORRECT"
-        pred_label = "CORRECT"   if demo_preds[i]  == 1 else "INCORRECT"
-        match      = "✓" if true_label == pred_label else "✗"
-        print(f"Sample {idx:04d} | Ground Truth: {true_label:9s} | Model Predicted: {pred_label:9s} | {match}")
+plt.figure(figsize=(6,5), dpi=300)
+plt.imshow(cm, cmap="Blues")
+plt.title("Confusion Matrix", fontsize=14, fontweight="bold")
+plt.colorbar()
+plt.xticks([0,1], ["Incorrect","Correct"], fontsize=11)
+plt.yticks([0,1], ["Incorrect","Correct"], fontsize=11)
+
+for i in range(2):
+    for j in range(2):
+        plt.text(
+    j,
+    i,
+    str(cm[i, j]),
+    ha="center",
+    va="center",
+    fontsize=12,
+    fontweight="bold",
+    color="white" if cm[i, j] > cm.max()/2 else "black"
+)
+
+plt.tight_layout()
+plt.savefig(
+    os.path.join(RESULTS_DIR, "confusion_matrix.png"),
+    dpi=300,
+    bbox_inches="tight"
+)
+plt.close()
+
+# ------------------------------------------------------------------
+# ROC Curve
+# ------------------------------------------------------------------
+ensemble_prob = ensemble.predict_proba(X_test)[:,1]
+
+fpr, tpr, _ = roc_curve(y_test, ensemble_prob)
+
+plt.figure(figsize=(6,5), dpi=300)
+plt.plot(
+    fpr,
+    tpr,
+    linewidth=2.5,
+    label=f"AUC = {roc_auc_score(y_test, ensemble_prob):.3f}"
+)
+plt.plot([0,1],[0,1],"--")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve")
+plt.legend()
+plt.tight_layout()
+plt.savefig(
+    os.path.join(RESULTS_DIR, "roc_curve.png"),
+    dpi=300,
+    bbox_inches="tight"
+)
+plt.close()
+
+# ------------------------------------------------------------------
+# Precision-Recall Curve
+# ------------------------------------------------------------------
+precision, recall, _ = precision_recall_curve(y_test, ensemble_prob)
+
+plt.figure(figsize=(6,5), dpi=300)
+plt.plot(
+    recall,
+    precision,
+    linewidth=2.5,
+    label="Precision-Recall"
+)
+
+plt.grid(alpha=0.3)
+plt.legend()
+plt.xlabel("Recall", fontsize=12)
+plt.ylabel("Precision", fontsize=12)
+plt.title("Precision-Recall Curve", fontsize=14, fontweight="bold")
+plt.tight_layout()
+plt.savefig(
+    os.path.join(RESULTS_DIR, "precision_recall_curve.png"),
+    dpi=300,
+    bbox_inches="tight"
+)
+plt.close()
+
+report = classification_report(
+    y_test,
+    ensemble_pred,
+    target_names=["Incorrect Form", "Correct Form"]
+)
+
+with open(
+    os.path.join(RESULTS_DIR, "classification_report.txt"),
+    "w"
+) as f:
+    f.write(report)
+
+
+print("\n=== SAMPLE PREDICTIONS ===")
+
+rf_preds  = rf.predict(X_test)
+lr_preds  = lr.predict(X_test)
+xgb_preds = xgb.predict(X_test)
+
+# Find indices where all three models agree with ground truth
+all_agree = np.where(
+    (rf_preds  == y_test) &
+    (lr_preds  == y_test) &
+    (xgb_preds == y_test)
+)[0]
+
+correct_agree   = [i for i in all_agree if y_test[i] == 1][:2]
+incorrect_agree = [i for i in all_agree if y_test[i] == 0][:2]
+demo_indices    = np.array(correct_agree + incorrect_agree)
+
+demo_preds = ensemble.predict(X_test[demo_indices])
+
+for i, idx in enumerate(demo_indices):
+    true_label = "CORRECT" if y_test[idx] == 1 else "INCORRECT"
+    pred_label = "CORRECT" if demo_preds[i] == 1 else "INCORRECT"
+    match = "✓" if true_label == pred_label else "✗"
+    print(f"Sample {idx:04d} | Ground Truth: {true_label:9s} | Model Predicted: {pred_label:9s} | {match}")
 
     # ══════════════════════════════════════════════════════════════════════
     # 9. EXPORT PRODUCTION FILES
     # ══════════════════
     # ════════════════════════════════════════════════════
     joblib.dump(ensemble, "knee_model.pkl")
-    joblib.dump(scaler,   "knee_scaler.pkl")
-    print("\n[SUCCESS] Model and Scaler saved successfully for deployment.")
+joblib.dump(scaler, "knee_scaler.pkl")
+
+with open(os.path.join(RESULTS_DIR, "training_log.txt"), "w") as f:
+    f.write("IoT Physiotherapy ML Training Log\n")
+    f.write("=" * 40 + "\n")
+    f.write(f"Train Samples : {len(X_train)}\n")
+    f.write(f"Test Samples  : {len(X_test)}\n\n")
+
+    for model_name, acc, auc in results:
+        f.write(f"{model_name}\n")
+        f.write(f"Accuracy : {acc:.4f}\n")
+        f.write(f"AUC      : {auc:.4f}\n\n")
+
+print("\n[SUCCESS] Model and Scaler saved successfully for deployment.")
+print("[SUCCESS] Reports saved in results/ folder.")
