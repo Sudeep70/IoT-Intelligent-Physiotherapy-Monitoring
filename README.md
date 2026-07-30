@@ -34,34 +34,7 @@ The system utilizes two MPU6050 inertial sensors connected to an ESP32 microcont
 
 # 🏗️ System Architecture
 
-> *(Add the architecture diagram from your IEEE paper here.)*
-
-```text
-MPU6050 Sensors
-        │
-        ▼
-      ESP32
-        │
- Bluetooth/Wi-Fi
-        │
-        ▼
- Data Acquisition
-        │
-        ▼
- Signal Preprocessing
-        │
-        ▼
- Feature Extraction
-        │
-        ▼
- Soft Voting Ensemble Model
-        │
-        ▼
- Exercise Classification
-        │
-        ▼
- Real-Time Feedback
-```
+> <img width="488" height="266" alt="image" src="https://github.com/user-attachments/assets/e5cd7851-d63d-406e-854c-558d29e1dc06" />
 
 ---
 
