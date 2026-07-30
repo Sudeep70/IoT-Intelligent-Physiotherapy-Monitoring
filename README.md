@@ -1,5 +1,3 @@
-<img width="2816" height="1536" alt="new1" src="https://github.com/user-attachments/assets/e9c9ea3f-d6a4-4357-9252-ea1954135dae" />
-<img width="2816" height="1536" alt="new1" src="https://github.com/user-attachments/assets/79c3b226-a3fb-481f-9a6a-fb00c4d5ca64" />
 # 🦵 IoT-Based Intelligent Physiotherapy Monitoring and Real-Time Feedback System
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
