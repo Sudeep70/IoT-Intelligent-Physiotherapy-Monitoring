@@ -239,11 +239,6 @@ Department of Computer Science and Engineering
 
 ---
 
-## 📄 Citation
-
-Citation details will be added once the associated IEEE paper is published.
-
----
 
 ## 📜 License
 
