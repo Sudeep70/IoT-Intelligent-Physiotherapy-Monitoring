@@ -116,7 +116,9 @@ The Soft Voting ensemble model achieved strong classification performance on the
 
 ## Confusion Matrix
 
-> *(Insert `results/confusion_matrix.png` here.)*
+
+> <img width="360" height="285" alt="image" src="https://github.com/user-attachments/assets/8c30caa2-a924-41a8-9ff3-5f9c457842cf" />
+
 
 ```markdown
 ![Confusion Matrix](results/confusion_matrix.png)
