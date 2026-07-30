@@ -34,7 +34,7 @@ The system utilizes two MPU6050 inertial sensors connected to an ESP32 microcont
 
 # 🏗️ System Architecture
 
-> <img width="488" height="266" alt="image" src="https://github.com/user-attachments/assets/e5cd7851-d63d-406e-854c-558d29e1dc06" />
+ <img width="488" height="266" alt="image" src="https://github.com/user-attachments/assets/e5cd7851-d63d-406e-854c-558d29e1dc06" />
 
 ---
 
@@ -117,22 +117,17 @@ The Soft Voting ensemble model achieved strong classification performance on the
 ## Confusion Matrix
 
 
-> <img width="360" height="285" alt="image" src="https://github.com/user-attachments/assets/8c30caa2-a924-41a8-9ff3-5f9c457842cf" />
+ <img width="360" height="285" alt="image" src="https://github.com/user-attachments/assets/8c30caa2-a924-41a8-9ff3-5f9c457842cf" />
 
 
-```markdown
-![Confusion Matrix](results/confusion_matrix.png)
-```
 
 ---
 
 ## ROC Curve
 
-> *(Insert your ROC curve image here.)*
 
-```markdown
-![ROC Curve](results/roc_curve.png)
-```
+ <img width="1770" height="1470" alt="roc_curve" src="https://github.com/user-attachments/assets/0e005057-c216-4d20-9274-02227e902c08" />
+
 
 ---
 
