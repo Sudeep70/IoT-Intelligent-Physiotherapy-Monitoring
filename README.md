@@ -34,7 +34,8 @@ The system utilizes two MPU6050 inertial sensors connected to an ESP32 microcont
 
 # 🏗️ System Architecture
 
- <img width="488" height="266" alt="image" src="https://github.com/user-attachments/assets/e5cd7851-d63d-406e-854c-558d29e1dc06" />
+ <img width="488" height="266" alt="new1" src="https://github.com/user-attachments/assets/32d36e43-144d-4df2-a57f-49aa8fa1eb83" />
+
 
 ---
 
@@ -117,7 +118,8 @@ The Soft Voting ensemble model achieved strong classification performance on the
 ## Confusion Matrix
 
 
- <img width="360" height="285" alt="image" src="https://github.com/user-attachments/assets/8c30caa2-a924-41a8-9ff3-5f9c457842cf" />
+<img width="360" height="285" alt="confusion_matrix" src="https://github.com/user-attachments/assets/7d80b559-996d-45c5-b4a9-eb1712169672" />
+
 
 
 
