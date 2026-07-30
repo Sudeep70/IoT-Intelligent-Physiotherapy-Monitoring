@@ -202,9 +202,20 @@ scaler = joblib.load("models/knee_scaler.pkl")
 
 ## 📈 Dataset
 
-The dataset used for training is **not included** in this repository because of its size.
+This project uses the **[Human Activity Recognition Using Smartphones Dataset](https://archive.ics.uci.edu/dataset/240/human+activity+recognition+using+smartphones)** (UCI Machine Learning Repository).
 
-Sensor data consists of motion readings collected from dual MPU6050 inertial sensors during knee rehabilitation exercises.
+- 30 subjects performing daily activities (walking, walking upstairs/downstairs, sitting, standing, laying) while wearing a waist-mounted smartphone
+- Captured via embedded accelerometer and gyroscope (3-axial acceleration + 3-axial angular velocity, 50Hz)
+- Preprocessed with noise filtering and segmented into fixed-width sliding windows (2.56s, 50% overlap)
+- 561-feature vector per window (time and frequency domain)
+- Licensed under CC BY 4.0
+
+**Citation:**
+```
+Reyes-Ortiz, J., Anguita, D., Ghio, A., Oneto, L., & Parra, X. (2013).
+Human Activity Recognition Using Smartphones [Dataset].
+UCI Machine Learning Repository. https://doi.org/10.24432/C54S4K
+```
 
 ---
 
