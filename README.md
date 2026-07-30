@@ -55,7 +55,7 @@ The system utilizes two MPU6050 inertial sensors connected to an ESP32 microcont
 
 ## 🏗️ System Architecture
 
- <img width="488" height="266" alt="image" src="https://github.com/user-attachments/assets/e5cd7851-d63d-406e-854c-558d29e1dc06" />
+ <img width="800" height="436" alt="image" src="https://github.com/user-attachments/assets/e5cd7851-d63d-406e-854c-558d29e1dc06" />
 
 ---
 
