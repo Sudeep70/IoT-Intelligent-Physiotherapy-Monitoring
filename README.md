@@ -1,3 +1,5 @@
+<img width="2816" height="1536" alt="new1" src="https://github.com/user-attachments/assets/e9c9ea3f-d6a4-4357-9252-ea1954135dae" />
+<img width="2816" height="1536" alt="new1" src="https://github.com/user-attachments/assets/79c3b226-a3fb-481f-9a6a-fb00c4d5ca64" />
 # 🦵 IoT-Based Intelligent Physiotherapy Monitoring and Real-Time Feedback System
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
@@ -55,7 +57,8 @@ The system utilizes two MPU6050 inertial sensors connected to an ESP32 microcont
 
 ## 🏗️ System Architecture
 
- <img width="800" height="436" alt="image" src="https://github.com/user-attachments/assets/e5cd7851-d63d-406e-854c-558d29e1dc06" />
+ <img width="2816" height="1536" alt="new1" src="https://github.com/user-attachments/assets/da241318-4312-4e14-8b50-c583eaa2e099" />
+
 
 ---
 
